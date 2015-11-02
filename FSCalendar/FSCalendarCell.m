@@ -85,7 +85,7 @@
     _backgroundLayer.borderColor = [UIColor clearColor].CGColor;
     
     CGFloat eventSize = _backgroundLayer.frame.size.height/6.0;
-    _eventLayer.frame = CGRectMake((_backgroundLayer.frame.size.width-eventSize)/2+_backgroundLayer.frame.origin.x, CGRectGetMaxY(_backgroundLayer.frame)+eventSize*0.2, eventSize*0.8, eventSize*0.8);
+    _eventLayer.frame = CGRectMake((_backgroundLayer.frame.size.width-eventSize)/2+_backgroundLayer.frame.origin.x, CGRectGetMaxY(_backgroundLayer.frame)-eventSize*1.5, eventSize*0.8, eventSize*0.8);
     _eventLayer.path = [UIBezierPath bezierPathWithOvalInRect:_eventLayer.bounds].CGPath;
     _imageView.frame = self.contentView.bounds;
 }
@@ -135,6 +135,19 @@
 {
     _titleLabel.font = [UIFont systemFontOfSize:_appearance.titleTextSize];
     _titleLabel.text = [NSString stringWithFormat:@"%@",@(_date.fs_day)];
+    _titleLabel.textColor = self.colorForTitleLabel;
+    
+    if (self.dateIsToday)
+    {
+        NSInteger size = _appearance.todayTitleTextSize? [_appearance.todayTitleTextSize floatValue]: _appearance.titleTextSize;
+        _titleLabel.font = _appearance.todayTitleFont? [_appearance.todayTitleFont fontWithSize:size]: [_titleLabel.font fontWithSize:size];
+        _titleLabel.textColor = _appearance.todayTitleColor;
+        
+        if (self.dateIsSelected && _appearance.todaySelectionTitleColor)
+        {
+            _titleLabel.textColor = _appearance.todaySelectionTitleColor;
+        }
+    }
     
 #define m_calculateTitleHeight \
         CGFloat titleHeight = [_titleLabel.text sizeWithAttributes:@{NSFontAttributeName:self.titleLabel.font}].height;
@@ -173,8 +186,6 @@
         });
     }
     
-    _titleLabel.textColor = self.colorForTitleLabel;
-    
     UIColor *borderColor = self.colorForCellBorder;
     _backgroundLayer.hidden = !self.selected && !self.dateIsToday && !self.dateIsSelected && !borderColor;
     if (!_backgroundLayer.hidden) {
@@ -190,6 +201,11 @@
     _eventLayer.hidden = !_hasEvent;
     if (!_eventLayer.hidden) {
         _eventLayer.fillColor = self.preferedEventColor.CGColor ?: _appearance.eventColor.CGColor;
+        
+        if(self.dateIsSelected && _appearance.eventSelectionColor)
+        {
+            _eventLayer.fillColor = _appearance.eventSelectionColor.CGColor;
+        }
     }
 }
 

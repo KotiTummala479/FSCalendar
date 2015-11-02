@@ -73,6 +73,13 @@ typedef NS_OPTIONS(NSUInteger, FSCalendarCaseOptions) {
 @property (assign, nonatomic) FSCalendarCaseOptions caseOptions;
 @property (assign, nonatomic) BOOL autoAdjustTitleSize;
 
+// XL Additions
+@property (strong, nonatomic) UIFont   *todayTitleFont;
+@property (strong, nonatomic) NSNumber *todayTitleTextSize;
+@property (strong, nonatomic) UIColor  *todayTitleColor;
+@property (strong, nonatomic) UIColor  *todaySelectionTitleColor;
+@property (strong, nonatomic) UIColor  *eventSelectionColor;
+
 // For preview only
 @property (assign, nonatomic) BOOL      fakeSubtitles;
 @property (assign, nonatomic) NSInteger fakedSelectedDay;
